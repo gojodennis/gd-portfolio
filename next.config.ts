@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  outputFileTracingRoot: path.resolve(__dirname, '../../'),
+  outputFileTracingRoot: path.join(__dirname, '.'),
 };
 
 export default nextConfig;
