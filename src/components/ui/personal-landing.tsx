@@ -167,11 +167,6 @@ const ConnectSection: React.FC = () => {
             return;
         }
 
-        if (FORMSPREE_ID === "YOUR_FORM_ID_HERE") {
-            setError("Please configure the Formspree ID in the code.");
-            return;
-        }
-
         setSending(true);
         setError("");
 
