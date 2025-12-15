@@ -13,7 +13,7 @@ interface Project {
         github: string;
     };
     gradient: string;
-    // Featured projects get larger layout in future iterations
+    image: string; // New image field
     featured?: boolean;
 }
 
@@ -24,6 +24,7 @@ const PROJECTS: Project[] = [
         tags: ["n8n", "Google Workspace API", "Telegram API"],
         links: { demo: "#", github: "https://github.com/gojodennis/n8n-pa" },
         gradient: "from-blue-600/20 via-cyan-500/10 to-transparent",
+        image: "/images/projects/ai-assistant.png"
     },
     {
         title: "Product Recommendation Agent",
@@ -31,6 +32,7 @@ const PROJECTS: Project[] = [
         tags: ["AI Algorithms", "Data Processing", "Automation"],
         links: { demo: "#", github: "https://github.com/gojodennis/n8n-pra" },
         gradient: "from-emerald-600/20 via-teal-500/10 to-transparent",
+        image: "/images/projects/recommendation.png"
     },
     {
         title: "Creative Agency Automation",
@@ -38,6 +40,7 @@ const PROJECTS: Project[] = [
         tags: ["Workflow Automation", "AdTech", "AI"],
         links: { demo: "#", github: "https://github.com/gojodennis/n8n-cgflv" },
         gradient: "from-purple-600/20 via-violet-500/10 to-transparent",
+        image: "/images/projects/automation.png"
     },
 ];
 
@@ -104,6 +107,15 @@ export function Projects() {
                     >
                         {/* Visual / Gradient Area */}
                         <div className={`h-48 w-full bg-gradient-to-br ${project.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
+                            <div className="absolute inset-0 flex items-center justify-center p-8 opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105">
+                                <Image
+                                    src={project.image}
+                                    alt={project.title}
+                                    width={200}
+                                    height={200}
+                                    className="object-contain w-full h-full drop-shadow-2xl"
+                                />
+                            </div>
                         </div>
 
                         {/* Content */}
