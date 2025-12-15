@@ -107,13 +107,12 @@ export function Projects() {
                     >
                         {/* Visual / Gradient Area */}
                         <div className={`h-48 w-full bg-gradient-to-br ${project.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
-                            <div className="absolute inset-0 flex items-center justify-center p-8 opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105">
+                            <div className="absolute inset-0 opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105 mix-blend-overlay">
                                 <Image
                                     src={project.image}
                                     alt={project.title}
-                                    width={200}
-                                    height={200}
-                                    className="object-contain w-full h-full drop-shadow-2xl"
+                                    fill
+                                    className="object-cover"
                                 />
                             </div>
                         </div>
