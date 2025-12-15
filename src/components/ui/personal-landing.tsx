@@ -17,9 +17,9 @@ const HeroSection: React.FC = () => {
                 {/* Glow - Monochrome/Zinc for B&W theme */}
                 <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-zinc-100 via-zinc-400 to-zinc-600 opacity-40 blur-lg animate-glow" />
                 <img
-                    src="https://api.dicebear.com/8.x/notionists/svg?seed=Dennis&backgroundColor=e5e5e5"
-                    alt="avatar"
-                    className="relative size-32 rounded-full border-4 border-zinc-900 shadow-2xl z-10 bg-zinc-100"
+                    src="/IMG_20251215_192401828.jpg"
+                    alt="Hrishikesh"
+                    className="relative size-32 rounded-full border-4 border-zinc-900 shadow-2xl z-10 bg-zinc-100 object-cover"
                 />
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight font-geist drop-shadow-sm text-zinc-100">
