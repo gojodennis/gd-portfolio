@@ -1,6 +1,7 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
+import { AnimatePresence, motion } from "framer-motion";
 import {
     Github,
     Linkedin,
@@ -101,11 +102,55 @@ const AboutBlock = () => (
     </div>
 );
 
+const WordRotator = () => {
+    const words = [
+        "systems-building",
+        "product-building",
+        "software systems",
+        "problem-solving",
+        "digital systems",
+        "technical build",
+        "polymath build",
+        "full-stack build",
+        "tool-making"
+    ];
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex((prev) => (prev + 1) % words.length);
+        }, 2500);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <span className="inline-flex relative h-[1.2em] w-[10em] justify-center align-top overflow-hidden bg-transparent">
+            <AnimatePresence mode="wait">
+                <motion.span
+                    key={words[index]}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="absolute inset-0 flex items-center justify-center font-semibold text-zinc-200 whitespace-nowrap"
+                >
+                    {words[index]}
+                </motion.span>
+            </AnimatePresence>
+        </span>
+    );
+};
+
 const ConnectSection: React.FC = () => {
     const [message, setMessage] = useState("");
+    const [sending, setSending] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const [error, setError] = useState("");
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // TODO: Replace with your actual Formspree Form ID
+    // Sign up at https://formspree.io/ to get a free form ID
+    const FORMSPREE_ID = "xeoyweyr";
 
     const validateMessage = (msg: string) => {
         if (!msg.trim()) return "Message cannot be empty.";
@@ -114,18 +159,46 @@ const ConnectSection: React.FC = () => {
         return "";
     };
 
-    const handleSend = (e: React.FormEvent) => {
+    const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
         const validationError = validateMessage(message);
         if (validationError) {
             setError(validationError);
             return;
         }
-        setShowToast(true);
-        setMessage("");
+
+        if (FORMSPREE_ID === "YOUR_FORM_ID_HERE") {
+            setError("Please configure the Formspree ID in the code.");
+            return;
+        }
+
+        setSending(true);
         setError("");
-        if (inputRef.current) inputRef.current.blur();
-        setTimeout(() => setShowToast(false), 2000);
+
+        try {
+            const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify({ message }),
+            });
+
+            if (response.ok) {
+                setShowToast(true);
+                setMessage("");
+                if (inputRef.current) inputRef.current.blur();
+                setTimeout(() => setShowToast(false), 3000);
+            } else {
+                const data = await response.json();
+                setError(data.error || "Failed to send message. Please try again.");
+            }
+        } catch (err) {
+            setError("Something went wrong. Please try again.");
+        } finally {
+            setSending(false);
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,32 +215,43 @@ const ConnectSection: React.FC = () => {
                     Message sent successfully!
                 </div>
             )}
-            <p className="text-lg text-zinc-500 mb-2 max-w-md mx-auto font-light">
-                Want to collaborate on an automation project?
-            </p>
+            <div className="text-lg text-zinc-500 mb-2 max-w-xl mx-auto font-light flex items-center justify-center flex-wrap gap-1">
+                <span>Want to collaborate on an</span>
+                <WordRotator />
+                <span>project?</span>
+            </div>
             <form onSubmit={handleSend} className="flex w-full max-w-md gap-2 items-center justify-center">
                 <input
                     ref={inputRef}
+                    name="message"
                     type="text"
                     value={message}
                     onChange={handleInputChange}
                     placeholder="Send me a message..."
+                    disabled={sending}
                     className={twMerge(
                         "flex-1 rounded-full border px-6 py-3 text-sm text-zinc-100 placeholder-zinc-600 transition-all focus:outline-none shadow-sm font-inter bg-zinc-900/50 backdrop-blur-sm",
-                        error ? "border-red-500/50 focus:border-red-500" : "border-zinc-800 focus:border-zinc-500 focus:bg-zinc-900"
+                        error ? "border-red-500/50 focus:border-red-500" : "border-zinc-800 focus:border-zinc-500 focus:bg-zinc-900",
+                        sending && "opacity-50 cursor-not-allowed"
                     )}
                     maxLength={201}
                 />
                 <button
                     type="submit"
+                    disabled={!message.trim() || sending}
                     className={twMerge(
                         "inline-flex items-center gap-2 rounded-full bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-900 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all active:scale-95 hover:bg-white",
-                        message.trim() ? "hover:scale-105 cursor-pointer opacity-100" : "opacity-50 cursor-not-allowed"
+                        (message.trim() && !sending) ? "hover:scale-105 cursor-pointer opacity-100" : "opacity-50 cursor-not-allowed"
                     )}
-                    disabled={!message.trim()}
-                    aria-disabled={!message.trim()}
+                    aria-label="Send message"
                 >
-                    Send <ArrowRight size={16} />
+                    {sending ? (
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-900 border-t-transparent" />
+                    ) : (
+                        <>
+                            Send <ArrowRight size={16} />
+                        </>
+                    )}
                 </button>
             </form>
             {error && (

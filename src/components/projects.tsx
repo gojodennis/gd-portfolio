@@ -4,109 +4,158 @@ import { motion } from "framer-motion";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
-export function Projects() {
-    const projects = [
-        {
-            title: "Project Alpha",
-            desc: "A minimalist dashboard for analytics. Real-time data visualization with highly optimized performance.",
-            tags: ["Next.js", "Tailwind", "Supabase"],
-            links: { demo: "#", git: "#" },
-            image: null, // Placeholder for now
-            gradient: "from-blue-500/20 to-purple-500/20"
-        },
-        {
-            title: "Neon Ecommerce",
-            desc: "High-performance online store with 3D elements. meaningful interactions and smooth transitions.",
-            tags: ["React", "Three.js", "Stripe"],
-            links: { demo: "#", git: "#" },
-            image: null,
-            gradient: "from-emerald-500/20 to-teal-500/20"
-        },
-        {
-            title: "SaaS Starter",
-            desc: "Complete boilerplate for new startups. Auth, database, and billing pre-configured.",
-            tags: ["Next.js", "Prisma", "Postgres"],
-            links: { demo: "#", git: "#" },
-            image: null,
-            gradient: "from-orange-500/20 to-red-500/20"
-        },
-        {
-            title: "AI Chat Interface",
-            desc: "Smooth, streaming chat UI with optimistic updates and markdown support.",
-            tags: ["React", "AI SDK", "Framer Motion"],
-            links: { demo: "#", git: "#" },
-            image: null,
-            gradient: "from-pink-500/20 to-rose-500/20"
-        },
-    ];
+interface Project {
+    title: string;
+    description: string;
+    tags: string[];
+    links: {
+        demo: string;
+        github: string;
+    };
+    gradient: string;
+    // Featured projects get larger layout in future iterations
+    featured?: boolean;
+}
 
+const PROJECTS: Project[] = [
+    {
+        title: "Personal AI Assistant",
+        description: "Multi-action conversational assistant on Telegram. Integrates with Google APIs (Gmail, Calendar, Tasks) for seamless workflow automation.",
+        tags: ["n8n", "Google Workspace API", "Telegram API"],
+        links: { demo: "#", github: "#" },
+        gradient: "from-blue-600/20 via-cyan-500/10 to-transparent",
+    },
+    {
+        title: "Product Recommendation Agent",
+        description: "AI-powered engine for catalog-based products. Features intelligent filtering and personalized recommendations.",
+        tags: ["AI Algorithms", "Data Processing", "Automation"],
+        links: { demo: "#", github: "#" },
+        gradient: "from-emerald-600/20 via-teal-500/10 to-transparent",
+    },
+    {
+        title: "Creative Agency Automation",
+        description: "Intelligent system for managing creative ad variations and campaign workflows. Streamlines agency operations.",
+        tags: ["Workflow Automation", "AdTech", "AI"],
+        links: { demo: "#", github: "#" },
+        gradient: "from-purple-600/20 via-violet-500/10 to-transparent",
+    },
+];
+
+const container = {
+    hidden: { opacity: 0 },
+    show: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+};
+
+export function Projects() {
     return (
-        <section id="work" className="py-32 px-6 max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
+        <section id="work" className="py-24 px-6 max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    className="max-w-2xl"
+                    className="max-w-xl"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">Selected Work</h2>
-                    <p className="text-lg text-white/60 leading-relaxed">
-                        A collection of projects exploring the intersection of design, engineering, and user experience.
+                    <h2 className="text-3xl font-bold tracking-tight text-white mb-4">Selected Work</h2>
+                    <p className="text-lg text-white/60 leading-relaxed font-light">
+                        Engineering digital experiences with a focus on core functionality, aesthetic precision, and user-centric design.
                     </p>
                 </motion.div>
+
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                 >
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors border-b border-transparent hover:border-white/40 pb-0.5">
-                        View all on GitHub <ArrowUpRight size={16} />
+                    <a
+                        href="https://github.com/gojodennis"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
+                    >
+                        <span className="border-b border-transparent group-hover:border-white/40 pb-0.5">View GitHub Profile</span>
+                        <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </a>
                 </motion.div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {projects.map((project, i) => (
+            <motion.div
+                variants={container}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-100px" }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+                {PROJECTS.map((project, i) => (
                     <motion.div
                         key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: i * 0.1 }}
-                        className="group relative flex flex-col bg-white/5 border border-white/10 rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-300"
+                        variants={item}
+                        className="group relative flex flex-col bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
                     >
-                        {/* Image / Placeholder Area */}
-                        <div className={`h-64 w-full bg-gradient-to-br ${project.gradient} relative overflow-hidden`}>
-                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                            {/* In the future, <Image /> would go here */}
-                            <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                                <a href={project.links.git} className="p-2.5 bg-black/50 backdrop-blur-md border border-white/10 rounded-full hover:bg-white text-white hover:text-black transition-all">
-                                    <Github size={18} />
-                                </a>
-                                <a href={project.links.demo} className="p-2.5 bg-black/50 backdrop-blur-md border border-white/10 rounded-full hover:bg-white text-white hover:text-black transition-all">
-                                    <ExternalLink size={18} />
-                                </a>
-                            </div>
+                        {/* Visual / Gradient Area */}
+                        <div className={`h-48 w-full bg-gradient-to-br ${project.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
                         </div>
 
                         {/* Content */}
-                        <div className="p-8 flex-1 flex flex-col">
-                            <div className="mb-4">
-                                <h3 className="text-2xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">{project.title}</h3>
-                                <p className="text-white/60 leading-relaxed text-sm h-10 line-clamp-2">{project.desc}</p>
+                        <div className="p-6 flex-1 flex flex-col">
+                            <div className="mb-6">
+                                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-blue-200 transition-colors">
+                                    {project.title}
+                                </h3>
+                                <p className="text-white/60 leading-relaxed text-sm font-light">
+                                    {project.description}
+                                </p>
                             </div>
 
-                            <div className="mt-auto flex flex-wrap gap-2 pt-4 border-t border-white/5">
-                                {project.tags.map(tag => (
-                                    <span key={tag} className="text-xs font-medium px-3 py-1 bg-white/5 border border-white/5 rounded-full text-white/50 group-hover:text-white/80 transition-colors">
-                                        {tag}
-                                    </span>
-                                ))}
+                            <div className="mt-auto space-y-4">
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2">
+                                    {project.tags.map(tag => (
+                                        <span
+                                            key={tag}
+                                            className="text-xs tracking-wide px-2.5 py-1 bg-white/5 border border-white/5 rounded-full text-white/50 group-hover:text-white/70 transition-colors"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+
+                                {/* Custom Action Buttons Area */}
+                                <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                                    <a
+                                        href={project.links.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-xs font-medium text-white/60 hover:text-white transition-colors"
+                                    >
+                                        <Github size={14} />
+                                        <span>Code</span>
+                                    </a>
+                                    <a
+                                        href={project.links.demo}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 text-xs font-medium text-white/60 hover:text-white transition-colors"
+                                    >
+                                        <ExternalLink size={14} />
+                                        <span>Live Demo</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
                 ))}
-            </div>
+            </motion.div>
         </section>
     );
 }
