@@ -12,36 +12,17 @@ interface Project {
         demo: string;
         github: string;
     };
-    gradient: string;
-    image: string; // New image field
-    featured?: boolean;
+    image: string;
 }
 
 const PROJECTS: Project[] = [
     {
-        title: "Personal AI Assistant",
-        description: "Multi-action conversational assistant on Telegram. Integrates with Google APIs (Gmail, Calendar, Tasks) for seamless workflow automation.",
-        tags: ["n8n", "Google Workspace API", "Telegram API"],
-        links: { demo: "#", github: "https://github.com/gojodennis/n8n-pa" },
-        gradient: "from-blue-600/20 via-cyan-500/10 to-transparent",
-        image: "/images/projects/ai-assistant.png"
-    },
-    {
-        title: "Product Recommendation Agent",
-        description: "AI-powered engine for catalog-based products. Features intelligent filtering and personalized recommendations.",
-        tags: ["AI Algorithms", "Data Processing", "Automation"],
-        links: { demo: "#", github: "https://github.com/gojodennis/n8n-pra" },
-        gradient: "from-emerald-600/20 via-teal-500/10 to-transparent",
-        image: "/images/projects/recommendation.png"
-    },
-    {
-        title: "Creative Agency Automation",
-        description: "Intelligent system for managing creative ad variations and campaign workflows. Streamlines agency operations.",
-        tags: ["Workflow Automation", "AdTech", "AI"],
-        links: { demo: "#", github: "https://github.com/gojodennis/n8n-cgflv" },
-        gradient: "from-purple-600/20 via-violet-500/10 to-transparent",
-        image: "/images/projects/automation.png"
-    },
+        title: "OpenKombai",
+        description: "The open-source, local-first alternative to Kombai. No subscriptions. No data leaks. Just pure cosmic power on your machine.",
+        tags: ["Open Source", "Local AI", "Frontend Tooling"],
+        links: { demo: "https://openkombai.vercel.app/", github: "https://github.com/gojodennis/OpenKombai" },
+        image: "/images/projects/openkombai.png"
+    }
 ];
 
 const container = {
@@ -61,16 +42,16 @@ const item = {
 
 export function Projects() {
     return (
-        <section id="work" className="py-24 px-6 max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+        <section id="work" className="py-32 px-6 max-w-4xl mx-auto font-inter">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     className="max-w-xl"
                 >
-                    <h2 className="text-3xl font-bold tracking-tight text-white mb-4">Selected Work</h2>
-                    <p className="text-lg text-white/60 leading-relaxed font-light">
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-zinc-100 mb-6 font-geist">Selected Work</h2>
+                    <p className="text-lg text-zinc-400 leading-relaxed font-light">
                         Engineering digital experiences with a focus on core functionality, aesthetic precision, and user-centric design.
                     </p>
                 </motion.div>
@@ -84,9 +65,9 @@ export function Projects() {
                         href="https://github.com/gojodennis"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-2 text-white/80 hover:text-white transition-colors text-sm"
+                        className="group flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors text-sm font-medium"
                     >
-                        <span className="border-b border-transparent group-hover:border-white/40 pb-0.5">View GitHub Profile</span>
+                        <span className="border-b border-transparent group-hover:border-zinc-500 pb-0.5">View GitHub Profile</span>
                         <ArrowUpRight size={16} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </a>
                 </motion.div>
@@ -97,44 +78,46 @@ export function Projects() {
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, margin: "-100px" }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                className="grid grid-cols-1 md:grid-cols-2 gap-8"
             >
                 {PROJECTS.map((project, i) => (
                     <motion.div
                         key={i}
                         variants={item}
-                        className="group relative flex flex-col bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 hover:bg-white/[0.04] transition-all duration-500"
+                        className="group relative flex flex-col bg-zinc-900/30 border border-zinc-800/50 rounded-2xl overflow-hidden hover:border-zinc-700/50 hover:bg-zinc-900/50 transition-all duration-500 backdrop-blur-sm shadow-sm hover:shadow-md"
                     >
-                        {/* Visual / Gradient Area */}
-                        <div className={`h-48 w-full bg-gradient-to-br ${project.gradient} relative overflow-hidden group-hover:opacity-90 transition-opacity`}>
-                            <div className="absolute inset-0 opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105 mix-blend-overlay">
+                        {/* Visual Area - Monochrome Gradient Fallback if Image Fails/Loading */}
+                        <div className="h-56 w-full bg-gradient-to-br from-zinc-800/50 via-zinc-900/50 to-transparent relative overflow-hidden">
+                            {/* Image with overlay for monochrome effect */}
+                            <div className="absolute inset-0 mix-blend-overlay opacity-80 group-hover:opacity-100 transition-all duration-500 group-hover:scale-105">
                                 <Image
                                     src={project.image}
                                     alt={project.title}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                                 />
                             </div>
+                            <div className="absolute inset-0 bg-zinc-900/20 group-hover:bg-transparent transition-colors duration-500" />
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 flex-1 flex flex-col">
-                            <div className="mb-6">
-                                <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-blue-200 transition-colors">
+                        <div className="p-8 flex-1 flex flex-col">
+                            <div className="mb-8">
+                                <h3 className="text-xl font-semibold text-zinc-100 mb-3 group-hover:text-white transition-colors font-geist w-full">
                                     {project.title}
                                 </h3>
-                                <p className="text-white/60 leading-relaxed text-sm font-light">
+                                <p className="text-zinc-400 leading-relaxed text-sm font-light">
                                     {project.description}
                                 </p>
                             </div>
 
-                            <div className="mt-auto space-y-4">
+                            <div className="mt-auto space-y-6">
                                 {/* Tags */}
                                 <div className="flex flex-wrap gap-2">
                                     {project.tags.map(tag => (
                                         <span
                                             key={tag}
-                                            className="text-xs tracking-wide px-2.5 py-1 bg-white/5 border border-white/5 rounded-full text-white/50 group-hover:text-white/70 transition-colors"
+                                            className="text-xs tracking-wide px-3 py-1.5 bg-zinc-800/50 border border-zinc-700/30 rounded-full text-zinc-300 group-hover:text-zinc-100 group-hover:border-zinc-600 transition-all"
                                         >
                                             {tag}
                                         </span>
@@ -142,23 +125,23 @@ export function Projects() {
                                 </div>
 
                                 {/* Custom Action Buttons Area */}
-                                <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                                <div className="flex items-center gap-4 pt-6 border-t border-zinc-800/50">
                                     <a
                                         href={project.links.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-xs font-medium text-white/60 hover:text-white transition-colors"
+                                        className="flex items-center gap-2 text-xs font-medium text-zinc-500 hover:text-zinc-200 transition-colors"
                                     >
-                                        <Github size={14} />
+                                        <Github size={16} />
                                         <span>Code</span>
                                     </a>
                                     <a
                                         href={project.links.demo}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-xs font-medium text-white/60 hover:text-white transition-colors"
+                                        className="flex items-center gap-2 text-xs font-medium text-zinc-500 hover:text-zinc-200 transition-colors"
                                     >
-                                        <ExternalLink size={14} />
+                                        <ExternalLink size={16} />
                                         <span>Live Demo</span>
                                     </a>
                                 </div>
