@@ -22,6 +22,13 @@ const PROJECTS: Project[] = [
         tags: ["Open Source", "Local AI", "Frontend Tooling"],
         links: { demo: "https://openkombai.vercel.app/", github: "https://github.com/gojodennis/OpenKombai" },
         image: "/images/projects/openkombai.png"
+    },
+    {
+        title: "DigiGarden",
+        description: "Your digital sanctuary for growth. A personalized personal knowledge management (PKM) system built for cultivating ideas and tracking progress.",
+        tags: ["Next.js", "PKM", "Digital Garden", "Productivity"],
+        links: { demo: "https://d1gigarden.vercel.app", github: "https://github.com/gojodennis/digitalgarden" },
+        image: "/images/projects/digigarden.png"
     }
 ];
 
