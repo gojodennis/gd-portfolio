@@ -6,11 +6,11 @@ import {
     Globe2,
     Send,
     Loader2,
-    LucideIcon,
     Linkedin,
     Youtube,
     Instagram
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 
 // --- Main Component ---
