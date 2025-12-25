@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github, ArrowUpRight, Folder, FolderOpen } from "lucide-react";
+import { ExternalLink, Github, Folder, FolderOpen } from "lucide-react";
 import Image from "next/image";
+import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 
 interface Project {
     title: string;
@@ -28,21 +29,24 @@ const PROJECTS: Project[] = [
     {
         title: "DigiGarden",
         description: "DigiGarden lets users virtually adopt, nurture real trees via notifications, and support NGO afforestation.",
-        tags: ["React", "Supabase", "fullstack"],
+        tags: ["Productivity", "PKM", "Next.js"],
         links: { demo: "https://d1gigarden.vercel.app", github: "https://github.com/gojodennis/digitalgarden" },
         image: "/images/projects/digigarden.png",
         featured: true
     }
 ];
 
-export function Projects() {
+export default function ProjectsPage() {
     return (
-        <div className="bg-[#191919] pb-32"> {/* Matches PersonalLanding bg */}
-            <section id="work" className="max-w-3xl mx-auto px-6 font-inter">
+        <div className="bg-[#191919] min-h-screen text-zinc-300 font-inter py-20 px-6">
+            <div className="max-w-3xl mx-auto">
+                <div className="mb-12">
+                    <BreadcrumbNav />
 
-                <div className="flex items-center gap-2 mb-8 pb-2 border-b border-zinc-800">
-                    <FolderOpen size={20} className="text-zinc-500" />
-                    <h2 className="text-xl font-bold text-zinc-100">Featured Projects</h2>
+                    <div className="flex items-center gap-2 pb-2 border-b border-zinc-800">
+                        <FolderOpen size={24} className="text-zinc-100" />
+                        <h1 className="text-2xl font-bold text-zinc-100">Projects</h1>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -50,8 +54,7 @@ export function Projects() {
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
                             className="group block bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden hover:bg-zinc-800/50 hover:border-zinc-700 transition-all duration-300"
                         >
@@ -102,21 +105,7 @@ export function Projects() {
                         </motion.div>
                     ))}
                 </div>
-
-                {/* Footer / Connect - Integrated into flow */}
-                <div className="mt-24 pt-12 border-t border-zinc-800 text-center md:text-left">
-                    <h3 className="text-xl font-bold text-zinc-100 mb-2">Let's Work Together</h3>
-                    <p className="text-zinc-400 mb-6 max-w-lg font-light">
-                        If you're interested to maximize your and your team's efficiency, send me a message to get started.
-                    </p>
-                    <a
-                        href="mailto:gojodennis@gmail.com"
-                        className="inline-flex items-center gap-2 text-zinc-100 border-b border-zinc-700 hover:border-zinc-100 transition-colors pb-0.5"
-                    >
-                        Send a message <ArrowUpRight size={14} />
-                    </a>
-                </div>
-            </section>
+            </div>
         </div>
     );
 }

@@ -1,292 +1,168 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
-import { twMerge } from "tailwind-merge";
-import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
 import {
-    Github,
-    Linkedin,
-    Instagram,
+    MapPin,
+    Briefcase,
+    Globe2,
     Send,
-    ArrowRight
+    Loader2,
+    LucideIcon,
+    Linkedin,
+    Youtube,
+    Instagram
 } from "lucide-react";
+import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 
-
-const HeroSection: React.FC = () => {
-    return (
-        <section className="w-full flex flex-col items-center text-center gap-6 pt-8">
-            <div className="relative mb-2">
-                {/* Glow - Monochrome/Zinc for B&W theme */}
-                <span className="absolute inset-0 rounded-full bg-gradient-to-tr from-zinc-100 via-zinc-400 to-zinc-600 opacity-40 blur-lg animate-glow" />
-                <img
-                    src="/IMG_20251215_192401828.jpg"
-                    alt="Hrishikesh"
-                    className="relative size-32 rounded-full border-4 border-zinc-900 shadow-2xl z-10 bg-zinc-100 object-cover"
-                />
-            </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight font-geist drop-shadow-sm text-zinc-100">
-                Hi, I'm <span className="bg-clip-text text-transparent bg-gradient-to-r from-zinc-200 via-white to-zinc-400">Hrishikesh</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto font-inter font-light">
-                Curious by default. <span className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.1)] font-medium">Polymath</span> by choice. I build software across apps, web, systems, and SaaS.
-            </p>
-        </section>
-    );
-};
-
-interface SocialLink {
-    href: string;
-    label: string;
-    icon: React.ReactNode;
-    bg: string;
-    text: string;
-    border?: string;
-}
-
-const socialLinks: SocialLink[] = [
-    {
-        href: 'https://linkedin.com/in/gojodennis',
-        label: 'LinkedIn',
-        icon: <Linkedin size={24} />,
-        bg: 'bg-zinc-900',
-        text: 'text-zinc-200',
-        border: 'border-zinc-800'
-    },
-    {
-        href: 'https://github.com/gojodennis',
-        label: 'GitHub',
-        icon: <Github size={24} />,
-        bg: 'bg-zinc-100',
-        text: 'text-zinc-900',
-        border: 'border-zinc-200'
-    },
-    {
-        href: 'https://instagram.com/gojodennis',
-        label: 'Instagram',
-        icon: <Instagram size={24} />,
-        bg: 'bg-zinc-900',
-        text: 'text-zinc-200',
-        border: 'border-zinc-800'
-    },
-];
-
-const SocialsBlock: React.FC = () => (
-    <div className="flex flex-wrap justify-center gap-4 w-full font-inter">
-        {socialLinks.map((link) => (
-            <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-                className={twMerge(
-                    'flex items-center gap-3 rounded-full border px-6 py-3 text-sm font-medium shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-white/20',
-                    link.bg,
-                    link.text,
-                    link.border || 'border-transparent'
-                )}
-                style={{ minWidth: 140 }}
-            >
-                {link.icon}
-                <span>{link.label}</span>
-            </a>
-        ))}
-    </div>
-);
-
-const AboutBlock = () => (
-    <div className="w-full max-w-3xl rounded-2xl border border-zinc-800/50 bg-zinc-900/30 p-8 shadow-sm text-center font-inter backdrop-blur-sm">
-        <p className="text-lg md:text-xl text-zinc-300 font-light leading-relaxed">
-            I’m Hrishikesh, 18 and a systems-first builder who learns by shipping, not by collecting credentials.<br className="hidden md:block" />
-            I chose real-world execution over college, and I build software to understand, control, and improve how systems actually work.
-        </p>
-    </div>
-);
-
-const WordRotator = () => {
-    const words = [
-        "systems-building",
-        "product-building",
-        "software systems",
-        "problem-solving",
-        "digital systems",
-        "technical build",
-        "polymath build",
-        "full-stack build",
-        "tool-making"
-    ];
-    const [index, setIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setIndex((prev) => (prev + 1) % words.length);
-        }, 2500);
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <span className="inline-flex relative h-[1.2em] w-[10em] justify-center align-top overflow-hidden bg-transparent">
-            <AnimatePresence mode="wait">
-                <motion.span
-                    key={words[index]}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="absolute inset-0 flex items-center justify-center font-semibold text-zinc-200 whitespace-nowrap"
-                >
-                    {words[index]}
-                </motion.span>
-            </AnimatePresence>
-        </span>
-    );
-};
-
-const ConnectSection: React.FC = () => {
-    const [message, setMessage] = useState("");
-    const [sending, setSending] = useState(false);
-    const [showToast, setShowToast] = useState(false);
-    const [error, setError] = useState("");
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    // TODO: Replace with your actual Formspree Form ID
-    // Sign up at https://formspree.io/ to get a free form ID
-    const FORMSPREE_ID = "xeoyweyr";
-
-    const validateMessage = (msg: string) => {
-        if (!msg.trim()) return "Message cannot be empty.";
-        if (msg.trim().length < 3) return "Message must be at least 3 characters.";
-        if (msg.length > 200) return "Message cannot exceed 200 characters.";
-        return "";
-    };
-
-    const handleSend = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const validationError = validateMessage(message);
-        if (validationError) {
-            setError(validationError);
-            return;
-        }
-
-        setSending(true);
-        setError("");
-
-        try {
-            const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({ message }),
-            });
-
-            if (response.ok) {
-                setShowToast(true);
-                setMessage("");
-                if (inputRef.current) inputRef.current.blur();
-                setTimeout(() => setShowToast(false), 3000);
-            } else {
-                const data = await response.json();
-                setError(data.error || "Failed to send message. Please try again.");
-            }
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
-        } finally {
-            setSending(false);
-        }
-    };
-
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setMessage(e.target.value);
-        if (error) setError("");
-    };
-
-    return (
-        <section className="w-full flex flex-col items-center text-center gap-6 mt-8 font-inter relative">
-            {/* Toast Notification */}
-            {showToast && (
-                <div className="fixed top-6 right-6 z-50 bg-zinc-100 text-zinc-900 px-6 py-3 rounded-xl shadow-xl font-medium text-sm animate-fade-in flex items-center gap-2">
-                    <span className="flex h-2 w-2 rounded-full bg-emerald-500"></span>
-                    Message sent successfully!
-                </div>
-            )}
-            <div className="text-lg text-zinc-500 mb-2 max-w-xl mx-auto font-light flex items-center justify-center flex-wrap gap-1">
-                <span>Want to collaborate on an</span>
-                <WordRotator />
-                <span>project?</span>
-            </div>
-            <form onSubmit={handleSend} className="flex w-full max-w-md gap-2 items-center justify-center">
-                <input
-                    ref={inputRef}
-                    name="message"
-                    type="text"
-                    value={message}
-                    onChange={handleInputChange}
-                    placeholder="Send me a message..."
-                    disabled={sending}
-                    className={twMerge(
-                        "flex-1 rounded-full border px-6 py-3 text-sm text-zinc-100 placeholder-zinc-600 transition-all focus:outline-none shadow-sm font-inter bg-zinc-900/50 backdrop-blur-sm",
-                        error ? "border-red-500/50 focus:border-red-500" : "border-zinc-800 focus:border-zinc-500 focus:bg-zinc-900",
-                        sending && "opacity-50 cursor-not-allowed"
-                    )}
-                    maxLength={201}
-                />
-                <button
-                    type="submit"
-                    disabled={!message.trim() || sending}
-                    className={twMerge(
-                        "inline-flex items-center gap-2 rounded-full bg-zinc-100 px-6 py-3 text-sm font-semibold text-zinc-900 shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 transition-all active:scale-95 hover:bg-white",
-                        (message.trim() && !sending) ? "hover:scale-105 cursor-pointer opacity-100" : "opacity-50 cursor-not-allowed"
-                    )}
-                    aria-label="Send message"
-                >
-                    {sending ? (
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-zinc-900 border-t-transparent" />
-                    ) : (
-                        <>
-                            Send <ArrowRight size={16} />
-                        </>
-                    )}
-                </button>
-            </form>
-            {error && (
-                <div className="text-red-400 text-xs mt-1 font-medium">{error}</div>
-            )}
-            <style>{`
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-        </section>
-    );
-};
+// --- Main Component ---
 
 export const PersonalLanding = () => {
     return (
-        <div className="min-h-[95vh] w-full flex items-center justify-center bg-transparent px-4 py-8 text-zinc-50 font-inter relative overflow-hidden">
-            {/* Animated background blob - Monochrome */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-zinc-800/20 rounded-full blur-[120px] -z-10" />
+        <div className="min-h-screen bg-[#191919] text-zinc-300 font-inter selection:bg-zinc-700 selection:text-zinc-100">
+            <div className="max-w-3xl mx-auto px-6 py-20">
 
-            <div className="w-full max-w-4xl flex flex-col items-center gap-10 z-10">
-                <HeroSection />
-                <SocialsBlock />
-                <AboutBlock />
-                <ConnectSection />
+                {/* 1. Brief Intro Header (Notion Breadcrumb style) */}
+                <BreadcrumbNav />
+                {/* 2. Hero Section */}
+                <section className="flex flex-col-reverse md:flex-row gap-10 md:gap-16 items-start mb-20">
+                    <div className="flex-1 space-y-6">
+                        <h1 className="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight leading-[1.1] mb-6">
+                            Hello, I'm Hrishikesh.
+                        </h1>
+
+                        {/* Professional Properties Block */}
+                        <div className="flex flex-col gap-2 mb-8 border-l-2 border-zinc-800 pl-4 py-1">
+                            <NotionProperty icon={MapPin} label="Location" value="India (IST)" />
+                            <NotionProperty icon={Briefcase} label="Role" value="Full Stack System Architect" />
+                            <NotionProperty icon={Globe2} label="Focus" value="High-Performance Web Apps & AI" />
+                        </div>
+                        <p className="text-zinc-400 leading-relaxed font-light">
+                            I'm a developer and a content creator who enjoys building web applications and exploring new technologies —
+                            basically, I spend most of my time in front of a screen.
+                        </p>
+
+                        <div className="pt-4 flex flex-col gap-6">
+                            <ContactForm />
+                            <div className="md:hidden">
+                                <SocialLinks />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* PFP / Illustration */}
+                    {/* PFP / Illustration & Socials */}
+                    <div className="flex flex-col gap-4 shrink-0">
+                        <div className="w-32 h-32 md:w-64 md:h-64 rounded-xl overflow-hidden border-2 border-zinc-800 bg-zinc-900">
+                            <img
+                                src="/pfp.jpg"
+                                alt="Profile"
+                                className="w-full h-full object-cover grayscale opacity-80"
+                            />
+                        </div>
+
+                        <div className="hidden md:flex w-full gap-2">
+                            <a href="https://linkedin.com/in/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+                                <Linkedin size={20} />
+                            </a>
+                            <a href="https://youtube.com/@gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-red-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+                                <Youtube size={20} />
+                            </a>
+                            <a href="https://instagram.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-pink-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+                                <Instagram size={20} />
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* 3. Skills Database View - REMOVED pursuant to split page request */}
+
             </div>
-            <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-      .font-inter { font-family: 'Inter', system-ui, sans-serif; }
-      .font-geist { font-family: 'Geist', 'Inter', system-ui, sans-serif; }
-      .animate-glow { animation: glow 4s ease-in-out infinite alternate; }
-      @keyframes glow {
-        from { opacity: 0.3; transform: scale(1); }
-        to { opacity: 0.6; transform: scale(1.1); }
-      }
-    `}</style>
+
+            <style jsx global>{`
+                @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+                .font-inter { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+                .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
         </div>
     );
 };
+
+const NotionProperty = ({ icon: Icon, label, value }: { icon: LucideIcon, label: string, value: string }) => (
+    <div className="flex items-center text-sm">
+        <div className="w-24 text-zinc-500 flex items-center gap-2">
+            <Icon size={14} />
+            {label}
+        </div>
+        <div className="text-zinc-300 font-medium">
+            {value}
+        </div>
+    </div>
+);
+
+const ContactForm = () => {
+    const [message, setMessage] = React.useState("");
+    const [status, setStatus] = React.useState<"idle" | "sending" | "success" | "error">("idle");
+    const FORMSPREE_ID = "xeoyweyr";
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!message.trim()) return;
+
+        setStatus("sending");
+        try {
+            const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({ message })
+            });
+            if (res.ok) {
+                setStatus("success");
+                setMessage("");
+                setTimeout(() => setStatus("idle"), 3000);
+            } else {
+                setStatus("error");
+            }
+        } catch {
+            setStatus("error");
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="flex gap-2 w-full md:w-auto relative max-w-sm">
+            <input
+                type="text"
+                placeholder="Send a quick message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                disabled={status === "sending" || status === "success"}
+                className="bg-zinc-800/50 border border-zinc-700 text-zinc-200 px-4 py-2.5 rounded text-sm focus:outline-none focus:border-zinc-500 focus:bg-zinc-800 w-full shadow-sm placeholder-zinc-500"
+            />
+            <button
+                type="submit"
+                disabled={!message.trim() || status !== "idle"}
+                className="bg-zinc-100 text-zinc-900 px-3 py-2.5 rounded hover:bg-zinc-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[44px]"
+            >
+                {status === "sending" ? <Loader2 className="animate-spin" size={18} /> :
+                    status === "success" ? <span className="text-emerald-600 font-bold">✓</span> :
+                        <Send size={18} />}
+            </button>
+        </form>
+    );
+};
+
+const SocialLinks = () => (
+    <div className="flex w-full gap-2">
+        <a href="https://linkedin.com/in/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+            <Linkedin size={20} />
+        </a>
+        <a href="https://youtube.com/@gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-red-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+            <Youtube size={20} />
+        </a>
+        <a href="https://instagram.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-pink-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+            <Instagram size={20} />
+        </a>
+    </div>
+);
