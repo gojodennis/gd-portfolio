@@ -28,8 +28,8 @@ const PROJECTS: Project[] = [
     },
     {
         title: "DigiGarden",
-        description: "DigiGarden lets users virtually adopt, nurture real trees via notifications, and support NGO afforestation.",
-        tags: ["Productivity", "PKM", "Next.js"],
+        description: "DigiGarden lets users virtually adopt, nurture real trees via your phone.",
+        tags: ["React", "Supabase", "Fullstack"],
         links: { demo: "https://d1gigarden.vercel.app", github: "https://github.com/gojodennis/digitalgarden" },
         image: "/images/projects/digigarden.png",
         featured: true

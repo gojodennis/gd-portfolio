@@ -22,7 +22,7 @@ export function BreadcrumbNav() {
     const currentPage = items.find(item => item.href === pathname) || items[0];
 
     return (
-        <div className="mb-8 font-medium animate-fade-in relative z-50">
+        <div className="mb-8 font-medium relative z-50">
             {/* Desktop View */}
             <div className="hidden md:flex items-center gap-2 text-zinc-500 text-sm overflow-x-auto whitespace-nowrap scrollbar-hide">
                 <span className="text-zinc-300">gojodennis</span>

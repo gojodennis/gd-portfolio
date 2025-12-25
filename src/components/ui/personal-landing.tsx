@@ -7,6 +7,7 @@ import {
     Send,
     Loader2,
     Linkedin,
+    Github,
     Youtube,
     Instagram
 } from "lucide-react";
@@ -17,13 +18,13 @@ import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 
 export const PersonalLanding = () => {
     return (
-        <div className="min-h-screen bg-[#191919] text-zinc-300 font-inter selection:bg-zinc-700 selection:text-zinc-100">
-            <div className="max-w-3xl mx-auto px-6 py-20">
+        <div className="min-h-screen md:h-screen md:overflow-hidden bg-[#191919] text-zinc-300 font-inter selection:bg-zinc-700 selection:text-zinc-100">
+            <div className="max-w-3xl mx-auto px-6 py-20 md:py-0 md:h-full md:flex md:flex-col md:justify-center">
 
                 {/* 1. Brief Intro Header (Notion Breadcrumb style) */}
                 <BreadcrumbNav />
                 {/* 2. Hero Section */}
-                <section className="flex flex-col-reverse md:flex-row gap-10 md:gap-16 items-start mb-20">
+                <section className="flex flex-col-reverse md:flex-row gap-10 md:gap-16 items-start mb-20 md:mb-0">
                     <div className="flex-1 space-y-6">
                         <h1 className="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight leading-[1.1] mb-6">
                             Hello, I'm Hrishikesh.
@@ -31,9 +32,9 @@ export const PersonalLanding = () => {
 
                         {/* Professional Properties Block */}
                         <div className="flex flex-col gap-2 mb-8 border-l-2 border-zinc-800 pl-4 py-1">
-                            <NotionProperty icon={MapPin} label="Location" value="India (IST)" />
+                            <NotionProperty icon={MapPin} label="Location" value="Assam, India (IST)" />
                             <NotionProperty icon={Briefcase} label="Role" value="Full Stack System Architect" />
-                            <NotionProperty icon={Globe2} label="Focus" value="High-Performance Web Apps & AI" />
+                            <NotionProperty icon={Globe2} label="Focus" value="AI‑Powered Workflows & Web Apps" />
                         </div>
                         <p className="text-zinc-400 leading-relaxed font-light">
                             I'm a developer and a content creator who enjoys building web applications and exploring new technologies —
@@ -42,8 +43,9 @@ export const PersonalLanding = () => {
 
                         <div className="pt-4 flex flex-col gap-6">
                             <ContactForm />
-                            <div className="md:hidden">
+                            <div className="md:hidden space-y-6">
                                 <SocialLinks />
+                                <Timeline />
                             </div>
                         </div>
                     </div>
@@ -63,12 +65,18 @@ export const PersonalLanding = () => {
                             <a href="https://linkedin.com/in/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
                                 <Linkedin size={20} />
                             </a>
+                            <a href="https://github.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+                                <Github size={20} />
+                            </a>
                             <a href="https://youtube.com/@gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-red-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
                                 <Youtube size={20} />
                             </a>
                             <a href="https://instagram.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-pink-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
                                 <Instagram size={20} />
                             </a>
+                        </div>
+                        <div className="hidden md:block w-full">
+                            <Timeline />
                         </div>
                     </div>
                 </section>
@@ -158,11 +166,21 @@ const SocialLinks = () => (
         <a href="https://linkedin.com/in/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
             <Linkedin size={20} />
         </a>
+        <a href="https://github.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-zinc-100 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
+            <Github size={20} />
+        </a>
         <a href="https://youtube.com/@gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-red-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
             <Youtube size={20} />
         </a>
         <a href="https://instagram.com/gojodennis" target="_blank" rel="noopener noreferrer" className="flex-1 flex justify-center items-center p-2 text-zinc-500 hover:text-pink-400 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-zinc-700">
             <Instagram size={20} />
         </a>
+    </div>
+);
+
+const Timeline = () => (
+    <div className="flex flex-col gap-1 text-xs text-zinc-500">
+        <div>· 2019 – Started coding</div>
+        <div>· 2025 – Full‑stack & AI focus</div>
     </div>
 );

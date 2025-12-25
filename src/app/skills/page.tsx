@@ -46,9 +46,18 @@ export default function SkillsPage() {
                 <div className="mb-12">
                     <BreadcrumbNav />
 
-                    <div className="flex items-center gap-2 pb-2 border-b border-zinc-800">
+                    <div className="flex items-center gap-2 pb-2 border-b border-zinc-800 mb-8">
                         <Command size={24} className="text-zinc-100" />
                         <h1 className="text-2xl font-bold text-zinc-100">Skills Database</h1>
+                    </div>
+
+                    <div className="space-y-4 text-zinc-400 text-sm leading-relaxed border-l-2 border-zinc-800 pl-4 py-1">
+                        <p>
+                            Strong in <span className="text-zinc-100 border-b border-zinc-700">Python</span>, currently learning <span className="text-zinc-100 border-b border-zinc-700">JavaScript</span> and <span className="text-zinc-100 border-b border-zinc-700">SQL</span>, focused on building reliable systems rather than just experimenting with code.
+                        </p>
+                        <p>
+                            Hands-on with <span className="text-zinc-100 border-b border-zinc-700">website development, reusable React components,</span> and <span className="text-zinc-100 border-b border-zinc-700">mobile app development</span>, applying concepts directly in real projects, not tutorials.
+                        </p>
                     </div>
                 </div>
 
@@ -68,6 +77,21 @@ export default function SkillsPage() {
                     </div>
                 </div>
             </div>
-        </div>
+            <style jsx global>{`
+                ::-webkit-scrollbar {
+                    width: 6px;
+                }
+                ::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+                ::-webkit-scrollbar-thumb {
+                    background: #27272a;
+                    border-radius: 3px;
+                }
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #3f3f46;
+                }
+            `}</style>
+        </div >
     );
 }
