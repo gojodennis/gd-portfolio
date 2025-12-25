@@ -1,21 +1,32 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Command, Code2, Layout, Globe, Terminal, Database, Zap, Layers, Cpu } from "lucide-react";
+import { Command, Brain } from "lucide-react";
+import {
+    SiReact,
+    SiNextdotjs,
+    SiTypescript,
+    SiNodedotjs,
+    SiPostgresql,
+    SiSupabase,
+    SiTailwindcss,
+    SiDocker,
+    SiFramer
+} from "react-icons/si";
 import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 
 const SKILLS = [
-    { name: "React", category: "Frontend", status: "Expert", icon: Layout },
-    { name: "Next.js", category: "Frontend", status: "Expert", icon: Globe },
-    { name: "TypeScript", category: "Language", status: "Expert", icon: Code2 },
-    { name: "Node.js", category: "Backend", status: "Advanced", icon: Terminal },
-    { name: "PostgreSQL", category: "Database", status: "Advanced", icon: Database },
-    { name: "Supabase", category: "Backend", status: "Advanced", icon: Zap },
-    { name: "Tailwind CSS", category: "Frontend", status: "Expert", icon: Layers },
-    { name: "AI/LLMs", category: "Integration", status: "Intermediate", icon: Cpu },
+    { name: "React", category: "Frontend", status: "Expert", icon: SiReact },
+    { name: "Next.js", category: "Frontend", status: "Expert", icon: SiNextdotjs },
+    { name: "TypeScript", category: "Language", status: "Expert", icon: SiTypescript },
+    { name: "Node.js", category: "Backend", status: "Advanced", icon: SiNodedotjs },
+    { name: "PostgreSQL", category: "Database", status: "Advanced", icon: SiPostgresql },
+    { name: "Supabase", category: "Backend", status: "Advanced", icon: SiSupabase },
+    { name: "Tailwind CSS", category: "Frontend", status: "Expert", icon: SiTailwindcss },
+    { name: "AI/LLMs", category: "Integration", status: "Intermediate", icon: Brain },
     { name: "System Design", category: "Architecture", status: "Advanced", icon: Command },
-    { name: "Docker", category: "DevOps", status: "Intermediate", icon: Terminal },
-    { name: "Framer Motion", category: "Animation", status: "Advanced", icon: Layers },
+    { name: "Docker", category: "DevOps", status: "Intermediate", icon: SiDocker },
+    { name: "Framer Motion", category: "Animation", status: "Advanced", icon: SiFramer },
 ];
 
 const SkillRow = ({ name, category, status, icon: Icon }: { name: string, category: string, status: string, icon: any }) => (
